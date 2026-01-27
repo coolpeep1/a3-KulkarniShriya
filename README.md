@@ -1,7 +1,7 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+Assignment 3 - Persistence: Three-tier Web Application with Client CSS Framework, Express, MongoDB
 ===
 
-Due: February 10th, by 11:59 AM.
+Due: T 2-10 at 11:59pm. 10 points off by W 2-11 at noon.
 
 This assignment continues where we left off, extending it to use the most popular Node.js server framework (Express), 
 a database ([MongoDB](https://www.mongodb.com/)), and a CSS style framework / template of your choice ([Material Tailwind](https://www.material-tailwind.com/),
@@ -42,10 +42,9 @@ The idea is to use CSS templates that give you a professional looking design aes
 
 JavaScript:  
 - At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-c25/a2-shortstack) for reference.
+See the [previous assignment](https://github.com/cs4241-c26/a2-clientserver.git) for reference.
 
-Node.js:  
-- A server using Express and a persistent database (MongoDB).
+Servers: Express and a persistent MongoDB database
 
 General:  
 - Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
@@ -59,7 +58,7 @@ Do the following to complete this assignment:
 
 1. Accept the A3 assignment which should automatically create a private repository for you.
 2. Implement your project with the above requirements. Consider beginning by converting your A2 
-   assignment. First, change the server to use express. Then, modify the server to use MongoDB 
+   assignment. If needed, change the server to use Express. Then, modify the server to use MongoDB 
    instead of storing data locally. Last but not least, implement user accounts and login using
    the browser window's localStorage. User accounts and login is a difficult part of this assignment, so
    budget your time accordingly. 
@@ -67,13 +66,8 @@ Do the following to complete this assignment:
    with "a3-" so we can find it. 
 4. Modify the README to the specifications below.
 5. Push your final application to your assignment GitHub repository before the deadline at 11:59pm. 
-6. Create an empty, temporary, `public` GitHub repository. Push your final application to this
-   repository. 
-7. Import from this public repository to deploy on Glitch (unless completing the 
-   alternative server technical achievement described below). Fill in the appropriate fields in 
-   your package.json file. Delete the public repository after the import has been successful. 
-8. Test your project to make sure that when someone goes to your main page on Glitch (or an 
-   alternative server), it displays correctly.
+6. Deploy your application to Render, or another web service like AWS if you are doing the technical achievement.
+8. Test your project to make sure that when someone goes to your main page, it displays correctly.
 
 Achievements
 ---
@@ -85,14 +79,8 @@ why it was challenging, and how many points you think the achievement should be 
 ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
 
 *Technical*
-- (10 points) Implement GitHub authentication using either  [Passport GitHub1](https://www.passportjs.org/packages/passport-github)
-  or [Passport GitHub2](https://www.passportjs.org/packages/passport-github2), or [Passport - Local Strategy](https://www.passportjs.org/packages/passport-local/).
-  *You must either use GitHub authentication or provide a username/password to access a dummy account*. 
-  Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-  Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHIEVEMENT OFFERED IN WEBWARE.
-  It is highly recommended that you complete the required Passport Local Strategy first and then attempt this!
-- (5 points) Instead of Glitch, host your site on a different service like [Vercel](https://vercel.com/) or [Heroku](https://www.heroku.com).
-  Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? 
+- (10 points) Instead of Render, host your site on a different service like AWS, [Vercel](https://vercel.com/) or [Heroku](https://www.heroku.com).
+  Make sure to describe this a bit in your README. What (if anything) was better about using the service you chose as compared to Render? 
   What (if anything) was worse? 
 - (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.
 - (up to 5 points) List up to five Express middleware packages you used and a short (one sentence) summary of what each 
@@ -108,7 +96,7 @@ ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THE
   to follow because you're effectively getting it "for free" without having to actively change anything about your site. 
   Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
   List each tip that you followed and describe what you did to follow it in your site.
-- (10 points) Describe how your site uses the CRAP principles in the [Non-Designer's Design Book](https://learning.oreilly.com/library/view/the-non-designers-design/9780321563088/)
+- (5 points) Describe how your site uses the CRAP principles in the [Non-Designer's Design Book](https://learning.oreilly.com/library/view/the-non-designers-design/9780321563088/)
   Make sure you are logged in to Canvas before clicking on the book's link.
 Which element received the most emphasis (contrast) on each page? 
 How did you use proximity to organize the visual information on your page? 
@@ -120,19 +108,17 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 ---
 
 ## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-wilson-wong.glitch.me
+LastName, FirstName: link to your deployed app
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
 - the goal of the application
 - challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
 - what CSS framework you used and why
   - include any modifications to the CSS framework you made via custom CSS you authored
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: 
 
 ## Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
