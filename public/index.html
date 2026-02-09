@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 2- Show Tracker</title>
+    <meta charset="utf-8">
+    <script src="js/client.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+            <!-- get rid of favicon error -->
+    <link href="data:;base64,iVBORw0KGgo=" rel="icon">
+</head>
+<body>
+<ul>
+    <li><a href="/index.html">Add a Show</a></li>
+    <li><a href="/myshows.html">View My Shows</a></li>
+
+</ul>
+<article>
+    <header>
+        <h1>Shows I'm Watching</h1>
+        <h3>Let's deduce your watch preferences...</h3>
+        <p></p>
+    </header>
+
+</article>
+
+<form id="showForm">
+    <!-- Name -->
+    <label for="uname"> Username:</label>
+    <input type = "text" id ="uname"  value="Username here"><br>
+
+    <!-- show name -->
+    <p>What show are you currently watching?</p>
+    <label for="title">Show name:</label>
+    <input type="text" id="title" name="title"><br>
+    <!-- radio button -->
+    <p> What genre is this show?</p>
+     <input id="genre1" name="genre" type="radio" value="Drama">
+     <label for="genre1">Drama</label><br>
+     <input id="genre2" name="genre" type="radio" value="Comedy">
+     <label for="genre2">Comedy</label><br>
+     <input id="genre3" name="genre" type="radio" value="Thriller">
+     <label for="genre3">Thriller</label><br>
+     <input id="genre4" name="genre" type="radio" value="Fantasy">
+     <label for="genre4">Fantasy</label><br>
+     <input id="genre5" name="genre" type="radio" value="Romance">
+     <label for="genre5">Romance</label><br>
+     <input id="genre6" name="genre" type="radio" value="Animation">
+        <label for="genre6">Animation</label><br>
+
+    <!-- drop down -->
+    <p> </p>
+    <label for="SeasonCount">How many seasons? </label> <br>
+    <select id="SeasonCount" name="dropdown1">
+        <option disabled selected value="">Total number of seasons</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">>7</option>
+    </select>
+<p> </p>
+    <label for="EpisodeCount">How many episodes per season?</label>
+    <input id="EpisodeCount" name="NumEpisodes" type="number"><br>
+
+    <br><label for="SeasonsWatched">How many seasons have you watched? </label> <br>
+    <select id="SeasonsWatched" name="dropdown2">
+        <option disabled selected value="">Watched seasons</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">>7</option>
+    </select>
+
+    <p> </p>
+    <label for="EpisodesWatched">How many episodes have you watched in total?</label>
+    <input id="EpisodesWatched" name="NumEpisodes" type="number"><br>
+
+      <p> </p>
+    <label for="TimeWatched">How many weeks have you been watching this show?</label>
+    <input id="TimeWatched" name="DaysWatched" type="number"><br>
+    <!-- submit -->
+    <br>
+    <input type="submit" value="Add Show">
+</form>
+
+</body>
+</html>
