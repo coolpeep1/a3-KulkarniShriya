@@ -1,3 +1,52 @@
+const express = require('express');
+const { MongoClient, ObjectID} = require('mongodb');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri);
+
+let db;
+let showsCollection;
+
+//connection to mongo
+
+async function connectDB(){
+    try {
+        await client.connect();
+        console.log("Connected to Mongo");
+
+        db = client.db("showTracker");
+        showsCollection = db.collection("shows");
+
+    } catch (error) {
+        console.error("Mongo connection error", error);
+        process.exit(1);
+    }
+}
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(express.static('public'));
+
+//get shows
+app.get('/shows', async (req,res)=> {
+    try {
+        const {username} = req.query;
+        let query = {};
+        if (username){
+            query = {uname: username};
+        }
+        const shows = await showsCollection.find(query).toArray();
+        res.json(shows);
+    } catch(error){
+        console.error('Fetch error', error);
+        res.status(500).json([]);
+    }
+});
+
+
 const http = require("node:http"),
     fs = require("node:fs"),
     // IMPORTANT: you must run `npm install` in the directory for this assignment
