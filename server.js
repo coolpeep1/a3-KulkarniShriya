@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Get all shows (optionally filtered by username)
+// all shows
 app.get('/shows', async (req, res) => {
     try {
         const { username } = req.query;
@@ -48,7 +48,7 @@ app.get('/shows', async (req, res) => {
     }
 });
 
-// Add a new show
+// add show
 app.post('/submit', async (req, res) => {
     try {
         const newShow = req.body;
@@ -72,7 +72,7 @@ app.post('/submit', async (req, res) => {
     }
 });
 
-// Delete a show
+// delete
 app.delete('/delete/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -91,7 +91,7 @@ app.delete('/delete/:id', async (req, res) => {
     }
 });
 
-// Update a show
+// update
 app.put('/update/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -116,14 +116,12 @@ app.put('/update/:id', async (req, res) => {
     }
 });
 
-// Start server after DB connection
 connectDB().then(() => {
     app.listen(port, () => {
         console.log(`Server running on http://localhost:${port}`);
     });
 });
 
-// Graceful shutdown
 process.on('SIGINT', async () => {
     console.log('\nending mongo connection');
     await client.close();
