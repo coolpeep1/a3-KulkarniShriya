@@ -1,127 +1,135 @@
 const express = require('express');
-const { MongoClient, ObjectID} = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// MongoDB connection URI
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
 let db;
 let showsCollection;
 
-//connection to mongo
-
-async function connectDB(){
+// Connect to MongoDB
+async function connectDB() {
     try {
         await client.connect();
-        console.log("Connected to Mongo");
+        console.log("connected");
 
         db = client.db("showTracker");
         showsCollection = db.collection("shows");
 
     } catch (error) {
-        console.error("Mongo connection error", error);
+        console.error("connection error:", error);
         process.exit(1);
     }
 }
 
+// Middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-//get shows
-app.get('/shows', async (req,res)=> {
+// Routes
+
+// Get all shows (optionally filtered by username)
+app.get('/shows', async (req, res) => {
     try {
-        const {username} = req.query;
+        const { username } = req.query;
+
         let query = {};
-        if (username){
-            query = {uname: username};
+        if (username) {
+            query = { uname: username };
         }
+
         const shows = await showsCollection.find(query).toArray();
         res.json(shows);
-    } catch(error){
-        console.error('Fetch error', error);
+
+    } catch (error) {
+        console.error('Error getting shows:', error);
         res.status(500).json([]);
     }
 });
 
+// Add a new show
+app.post('/submit', async (req, res) => {
+    try {
+        const newShow = req.body;
 
-const http = require("node:http"),
-    fs = require("node:fs"),
-    // IMPORTANT: you must run `npm install` in the directory for this assignment
-    // to install the mime library if you're testing this on your local machine.
-    // However, Glitch will install it automatically by looking in your package.json
-    // file.
-    mime = require("mime"),
-    dir = "public/",
-    port = 3000
-//let fullURL = "index.html"
-const appdata = [];
-
-const server = http.createServer(function (request, response) {
-    if (request.method === "GET") {
-        handleGet(request, response)
-    } else if (request.method === "POST") {
-        handlePost(request, response)
-    }
-    // The following shows the requests being sent to the server
-    // fullURL = `http://${request.headers.host}${request.url}`
-    // console.log( fullURL );
-})
-
-const handleGet = function (request, response) {
-    const filename = dir + request.url.slice(1)
-    if (request.url === "/") {
-        sendFile(response, "public/index.html")
-    } else if (request.url === "/shows") {
-        response.writeHead(200, "OK", {"Content-Type": "application/json"})
-        response.end(JSON.stringify(appdata))
-    } else {
-        sendFile(response, filename)
-    }
-}
-
-const handlePost = function (request, response) {
-    let dataString = ""
-    request.on("data", function (data) {
-        dataString += data
-    })
-    request.on("end", function () {
-        const newShow = JSON.parse(dataString);
+        // Calculate derived fields (same as before)
         newShow.totalEpisodes = newShow.SeasonCount * newShow.EpisodeCount;
         newShow.percentComplete = Math.round((newShow.EpisodesWatched / newShow.totalEpisodes) * 100);
         newShow.RemainingEpisodes = newShow.totalEpisodes - newShow.EpisodesWatched;
+        newShow.createdAt = new Date();
 
-        appdata.push(newShow);
-        console.log("Current Shows:", appdata);
-        response.writeHead(200, "OK", {"Content-Type": "application/json"})
-        response.end(JSON.stringify(appdata))
-    })
-}
+        await showsCollection.insertOne(newShow);
 
-const sendFile = function (response, filename) {
-    const type = mime.getType(filename)
+        // Return all shows for this user
+        const userShows = await showsCollection.find({ uname: newShow.uname }).toArray();
+        console.log("Show added:", newShow.title);
+        res.json(userShows);
 
-    fs.readFile(filename, function (err, content) {
+    } catch (error) {
+        console.error('Show add error:', error);
+        res.status(500).json([]);
+    }
+});
 
-        // if the error = null, then we've loaded the file successfully
-        if (err === null) {
+// Delete a show
+app.delete('/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username } = req.query;
 
-            // status code: https://httpstatuses.com
-            response.writeHead(200, {"Content-Type": type})
-            response.end(content)
+        await showsCollection.deleteOne({
+            _id: new ObjectId(id),
+            uname: username
+        });
 
-        } else {
-            // file not found, error code 404
-            response.writeHead(404)
-            response.end("404 Error: File Not Found")
+        res.json({ success: true });
 
-        }
-    })
-}
-// process.env.PORT references the port that Glitch uses
-// the following line will either use the Glitch port or one that we provided
-server.listen(process.env.PORT || port, () => {
-    console.log("Server listening on port " + port);
-})
+    } catch (error) {
+        console.error('Delete show error:', error);
+        res.status(500).json({ success: false });
+    }
+});
+
+// Update a show
+app.put('/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        // Recalculate derived fields
+        updateData.totalEpisodes = updateData.SeasonCount * updateData.EpisodeCount;
+        updateData.percentComplete = Math.round((updateData.EpisodesWatched / updateData.totalEpisodes) * 100);
+        updateData.RemainingEpisodes = updateData.totalEpisodes - updateData.EpisodesWatched;
+        updateData.updatedAt = new Date();
+
+        await showsCollection.updateOne(
+            { _id: new ObjectId(id), uname: updateData.uname },
+            { $set: updateData }
+        );
+
+        res.json({ success: true });
+
+    } catch (error) {
+        console.error('Show update error:', error);
+        res.status(500).json({ success: false });
+    }
+});
+
+// Start server after DB connection
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}`);
+    });
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    console.log('\nending mongo connection');
+    await client.close();
+    process.exit(0);
+});

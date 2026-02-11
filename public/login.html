@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 3 - Login</title>
+    <meta charset="utf-8">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="data:;base64,iVBORw0KGgo=" rel="icon">
+</head>
+<body>
+<article>
+    <header>
+        <h1>Show Tracker Login</h1>
+        <h3>Enter your username and password to continue</h3>
+    </header>
+</article>
+
+<form id="loginForm">
+    <p>Username:</p>
+    <input type="text" id="username" required><br>
+    <p>Password:</p>
+    <input type="password" id="password" required><br>
+    <br>
+    <input type="submit" value="Login">
+    <p id="message" style="color: red;"></p>
+    <p style="font-size: 0.9em; color: #666;"></p>
+</form>
+
+<script>
+document.getElementById('loginForm').onsubmit = function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
+    localStorage.setItem('loggedIn', 'true');
+    window.location.href = '/index.html';
+};
+</script>
+
+</body>
+</html>
