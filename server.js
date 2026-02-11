@@ -4,14 +4,12 @@ const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// MongoDB connection URI
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
 let db;
 let showsCollection;
 
-// Connect to MongoDB
 async function connectDB() {
     try {
         await client.connect();
@@ -26,12 +24,10 @@ async function connectDB() {
     }
 }
 
-// Middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
-// Routes
 
 // Get all shows (optionally filtered by username)
 app.get('/shows', async (req, res) => {
